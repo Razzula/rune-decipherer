@@ -3,11 +3,25 @@ import time
 alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
 
 f = open('words.txt', 'r')
-valid = f.read().split('\n')
+valid = f.read().lower().split('\n')
 f.close()
 
-words = ['ab', 'cb', 'deffg', 'e', 'chij', 'cb', 'dhb']
-accepted = []
+sentence = input("> ")
+
+words = []
+temp = ''
+for char in sentence:
+    if char == ','  or char == '.':
+        continue #trim punctuation
+    elif char == ' ':
+        if temp not in words:
+            words.append(temp)
+        temp = ''
+    else:
+        temp += char
+if temp not in words:
+    words.append(temp)
+words.sort(key=len)
 
 def bGoDeeper():
     #see if enough info for a word yet
@@ -32,7 +46,6 @@ def bGoDeeper():
 def bWordsValid():
     final = ''
     for word in words:
-        flag = True
         temp = ''
         #find replacement
         for char in word:
@@ -45,7 +58,21 @@ def bWordsValid():
             return
         final += temp + ' '
     print(key)
-    f.write(final + '\n')
+
+    temp = ''
+    for char in sentence:
+        for n in range(len(key)):
+            if key[n][0] == char:
+                #temp += key[n][1]
+                break
+        if char in alphabet:
+            temp += key[n][1]
+        else:
+            temp += char
+
+    f.write(temp + '\n')
+    global count
+    count += 1
 
 def recurse():
     priors = ''
@@ -61,7 +88,7 @@ def recurse():
         return
 
     # cycle all values of rune
-    for i in range(23):
+    for i in range(len(alphabet)):
         rune = alphabet[i]
         if rune + ' ' in priors: #ensure rune is not duplicate
             continue
@@ -77,6 +104,7 @@ for word in words:
         if [char, None] not in key:
             key.append([char, None])
 
+count = 0
 epoch = time.time()
 
 f = open('out.txt', 'w')
@@ -85,4 +113,5 @@ f.close()
 
 epoch = time.time() - epoch
 print('Done :D')
+print(str(count) + ' matches')
 print('in ' + str(epoch) + 's')
