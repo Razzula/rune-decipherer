@@ -1,13 +1,13 @@
 import time
 
-alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
+alphabet = ['a','b','c','ch','d','e','ei','f','g','h','i','ie','j','k','l','m','n','o','p','q','r','s','t','th','u','v','w','x','y','z','zh']
 
 f = open('words.txt', 'r')
 valid = f.read().lower().split('\n')
 f.close()
 
 sentence = input("> ")
-exempt = [',', '.', ' ']
+exempt = [',', '.',' ']
 
 words = []
 temp = ''
