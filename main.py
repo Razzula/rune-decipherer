@@ -74,8 +74,6 @@ def bWordsValid():
     f.write(temp + '\n')
     global count
     count += 1
-    if 'cr' in temp or 'cy' in temp:
-        pass #DEBUG
 
 def recurse():
     priors = ''
