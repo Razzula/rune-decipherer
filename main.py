@@ -7,16 +7,17 @@ valid = f.read().lower().split('\n')
 f.close()
 
 sentence = input("> ")
+exempt = [',', '.', ' ']
 
 words = []
 temp = ''
 for char in sentence:
-    if char == ','  or char == '.':
-        continue #trim punctuation
-    elif char == ' ':
+    if char == ' ':
         if temp not in words:
             words.append(temp)
         temp = ''
+    elif char in exempt:
+        continue #trim punctuation
     else:
         temp += char
 if temp not in words:
@@ -65,14 +66,16 @@ def bWordsValid():
             if key[n][0] == char:
                 #temp += key[n][1]
                 break
-        if char in alphabet:
-            temp += key[n][1]
-        else:
+        if char in exempt:
             temp += char
+        else:
+            temp += key[n][1]
 
     f.write(temp + '\n')
     global count
     count += 1
+    if 'cr' in temp or 'cy' in temp:
+        pass #DEBUG
 
 def recurse():
     priors = ''
@@ -107,7 +110,7 @@ for word in words:
 count = 0
 epoch = time.time()
 
-f = open('out.txt', 'w')
+f = open('./out/' + sentence + '.txt', 'w')
 recurse()
 f.close()
 
